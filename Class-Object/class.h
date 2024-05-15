@@ -24,7 +24,7 @@ private:
 };
 
 
-//继承方式：指的是基类的非私有成员在子类的访问属性变化（公有继承就属性不变，保护继承就全变保护，私有继承就全变私有，基类的私有成员在子类中都是不可见的）
+//继承方式：指的是基类的非私有成员在子类的访问属性变化（公有继承就属性不变，保护继承就全变保护，私有继承就全变私有）
 class Base {
 public:
     void funcPublic() {}
@@ -34,9 +34,17 @@ private:
     void funcPrivate() {}
 };
 
-class Derived1 : Base { // 这里默认是私有继承
+class Derived1 : Base { // 私有继承(默认)
     // Base中的funcPublic()和funcProtected()在Derived1中变为私有成员
-    // Base中的funcPrivate()在Derived1中不可访问
+    // Base中的这三个函数均不能通过子类Derived1的对象（类外部）直接访问
+    // funcPublic()、funcProtected()-private性质的不能通过子类的对象在类外部直接访问，但是在子类的成员函数内部访问，如下
+public: //声明为public意味着可以通过子类Derived1对象外部访问，这行若声明为private，只能子类的内部成员函数调用访问，子类的对象也不能调用
+    void callProtectedAndPublic()
+    {
+        funcPublic();    // 从Base继承的public成员，在Derived1中为private
+        funcProtected(); // 从Base继承的protected成员，在Derived1中为private
+    }
+    //无论是通过什么类型的继承（私有继承、保护继承、公开继承）。私有成员仅在基类Base的内部可见，不能在任何子类中访问，即使是在派生类的成员函数内部也不行
 };
 
 class Derived2 : public Base {   // 继承方式被显式指定为公有继承

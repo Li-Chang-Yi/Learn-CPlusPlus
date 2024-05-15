@@ -20,4 +20,10 @@ int main( )
     Rectangle rect(10, 5);
     rect.display(); // 输出：Width: 10, Height: 5
 
+    Derived1 A;
+
+//    A.funcPublic();  // 在子类中都是Private不可通过对象（类外部）访问
+//    A.funcProtected();// 不可访问
+//    A.funcPrivate(); // 不可访问
+    A.callProtectedAndPublic();// 由于在子类中是public，所以可通过对象访问(子类public成员函数调用基类成员函数)
 }
